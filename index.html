@@ -123,5 +123,43 @@
   </dialog>
 
   <script src="app.js"></script>
+  <script>
+    (() => {
+      // Safari móvil cambia la altura del viewport al mostrar/ocultar sus barras.
+      // Eso disparaba el resize original y recalculaba las etiquetas usando
+      // la caja transformada de la ruleta ya girada, desplazándolas fuera del círculo.
+      window.removeEventListener('resize', buildWheel);
+
+      let lastViewportWidth = window.innerWidth;
+      let resizeTimer;
+
+      window.addEventListener('resize', () => {
+        const nextWidth = window.innerWidth;
+
+        // Si solo cambió la altura (barra de Safari), no hay nada que recalcular.
+        if (Math.abs(nextWidth - lastViewportWidth) < 2) return;
+        lastViewportWidth = nextWidth;
+
+        clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(() => {
+          if (spinning) return;
+
+          const savedTransform = wheel.style.transform;
+          const savedTransition = wheel.style.transition;
+
+          // Recalcular con la ruleta sin transformación evita medir una caja rotada.
+          wheel.style.transition = 'none';
+          wheel.style.transform = 'none';
+          buildWheel();
+          void wheel.offsetWidth;
+          wheel.style.transform = savedTransform;
+
+          requestAnimationFrame(() => {
+            wheel.style.transition = savedTransition;
+          });
+        }, 120);
+      });
+    })();
+  </script>
 </body>
 </html>
