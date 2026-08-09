@@ -309,9 +309,12 @@
     (() => {
       // Dos bloques de Súper Salto en la ruleta de la casilla 35 para aumentar
       // su probabilidad, manteniendo intactas todas las demás categorías.
-      if (JUMP_SEGMENTS.filter(item => item === 'Súper Salto').length < 2) {
-        JUMP_SEGMENTS.push('Súper Salto');
-      }
+      JUMP_SEGMENTS.splice(
+        0,
+        JUMP_SEGMENTS.length,
+        'Súper Salto', 'Adivina', 'Mímica', 'Dibuja',
+        'Súper Salto', 'Pregunta', 'Flash Win', 'Adivina'
+      );
 
       // La ruleta puede quedar rotada después de una jugada. Medirla con
       // getBoundingClientRect() en ese estado agranda artificialmente su caja
