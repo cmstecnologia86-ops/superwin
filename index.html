@@ -262,34 +262,13 @@
     <section class="rules-section">
       <h3>🗺️ Simbología del tablero</h3>
       <div class="symbol-grid">
-        <div class="symbol-item">
-          <span class="board-symbol symbol-normal">Nº</span>
-          <div><strong>Casilla normal</strong><small>Tu turno termina ahí.</small></div>
-        </div>
-        <div class="symbol-item">
-          <span class="board-symbol symbol-question">?</span>
-          <div><strong>Pregunta / reto</strong><small>Usa la ruleta normal de la plataforma.</small></div>
-        </div>
-        <div class="symbol-item">
-          <span class="board-symbol symbol-forward">+2</span>
-          <div><strong>Avanza 2</strong><small>Mueve tu ficha dos casillas hacia adelante y aplica la nueva casilla.</small></div>
-        </div>
-        <div class="symbol-item">
-          <span class="board-symbol symbol-back">−2</span>
-          <div><strong>Retrocede 2</strong><small>Mueve tu ficha dos casillas hacia atrás y aplica la nueva casilla.</small></div>
-        </div>
-        <div class="symbol-item">
-          <span class="board-symbol symbol-again">🎲</span>
-          <div><strong>Tira otra vez</strong><small>Vuelve a lanzar el dado inmediatamente.</small></div>
-        </div>
-        <div class="symbol-item">
-          <span class="board-symbol symbol-swap">↔</span>
-          <div><strong>Cambia de lugar</strong><small>Intercambia tu posición con la de otro jugador.</small></div>
-        </div>
-        <div class="symbol-item">
-          <span class="board-symbol symbol-stop">✋</span>
-          <div><strong>Pierde 1 turno</strong><small>No juegas en tu próximo turno.</small></div>
-        </div>
+        <div class="symbol-item"><span class="board-symbol symbol-normal">Nº</span><div><strong>Casilla normal</strong><small>Tu turno termina ahí.</small></div></div>
+        <div class="symbol-item"><span class="board-symbol symbol-question">?</span><div><strong>Pregunta / reto</strong><small>Usa la ruleta normal de la plataforma.</small></div></div>
+        <div class="symbol-item"><span class="board-symbol symbol-forward">+2</span><div><strong>Avanza 2</strong><small>Mueve tu ficha dos casillas hacia adelante y aplica la nueva casilla.</small></div></div>
+        <div class="symbol-item"><span class="board-symbol symbol-back">−2</span><div><strong>Retrocede 2</strong><small>Mueve tu ficha dos casillas hacia atrás y aplica la nueva casilla.</small></div></div>
+        <div class="symbol-item"><span class="board-symbol symbol-again">🎲</span><div><strong>Tira otra vez</strong><small>Vuelve a lanzar el dado inmediatamente.</small></div></div>
+        <div class="symbol-item"><span class="board-symbol symbol-swap">↔</span><div><strong>Cambia de lugar</strong><small>Intercambia tu posición con la de otro jugador.</small></div></div>
+        <div class="symbol-item"><span class="board-symbol symbol-stop">✋</span><div><strong>Pierde 1 turno</strong><small>No juegas en tu próximo turno.</small></div></div>
       </div>
     </section>
 
@@ -328,6 +307,12 @@
   <script src="app.js"></script>
   <script>
     (() => {
+      // Dos bloques de Súper Salto en la ruleta de la casilla 35 para aumentar
+      // su probabilidad, manteniendo intactas todas las demás categorías.
+      if (JUMP_SEGMENTS.filter(item => item === 'Súper Salto').length < 2) {
+        JUMP_SEGMENTS.push('Súper Salto');
+      }
+
       // La ruleta puede quedar rotada después de una jugada. Medirla con
       // getBoundingClientRect() en ese estado agranda artificialmente su caja
       // y empuja las etiquetas fuera del círculo. clientWidth no se ve afectado
@@ -368,8 +353,6 @@
         });
       }
 
-      // El listener original cambia el modo primero. Este segundo listener
-      // limpia la rotación anterior para que cada modo parta visualmente ordenado.
       modeButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
           if (btn.dataset.mode === 'final') return;
@@ -392,7 +375,6 @@
         }, 120);
       });
 
-      // Asegura una geometría limpia desde la primera carga.
       buildWheel();
     })();
   </script>
