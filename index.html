@@ -25,7 +25,10 @@
           <p class="eyebrow">¿Dónde estás en el tablero?</p>
           <h2 id="modeTitle">Elige el modo</h2>
         </div>
-        <button id="rulesBtn" class="icon-button" type="button" aria-label="Ver reglas">?</button>
+        <button id="rulesBtn" class="rules-main-btn" type="button" aria-label="Ver reglas y simbología del juego">
+          <span class="rules-main-icon" aria-hidden="true">📘</span>
+          <span>Reglas del juego</span>
+        </button>
       </div>
 
       <div class="mode-grid" role="group" aria-label="Modo de juego">
@@ -110,16 +113,88 @@
 
   <dialog id="rulesDialog" class="rules-dialog">
     <div class="dialog-head">
-      <h2>Cómo jugar</h2>
+      <div>
+        <p class="eyebrow">LOS SUPER WIN</p>
+        <h2>Reglas y simbología</h2>
+      </div>
       <button id="closeRulesBtn" class="icon-button" type="button" aria-label="Cerrar">×</button>
     </div>
-    <ol>
-      <li><strong>El juego se explica en español:</strong> cada reto te indicará claramente qué tienes que hacer. El objetivo es practicar y responder en inglés.</li>
-      <li><strong>Casillas ?:</strong> gira una vez y realiza el reto que aparezca.</li>
-      <li><strong>Flash Win:</strong> saca una carta física Flash Win y cumple la instrucción indicada.</li>
-      <li><strong>Casilla 35:</strong> las casillas 36 y 37 no existen. Debes seguir girando en tus turnos hasta obtener <strong>Súper Salto</strong>. Entonces avanzas directo a la 38.</li>
-      <li><strong>Casilla 41:</strong> responde una Pregunta Final. Si aciertas, ganas. Si fallas, permaneces en 41 y pruebas otra pregunta en tu próximo turno.</li>
-    </ol>
+
+    <section class="rules-section rules-howto">
+      <h3>🎲 Cómo se juega</h3>
+      <ol>
+        <li>Cada jugador elige su ficha <strong>Super Win</strong> y comienza en <strong>SALIDA</strong>.</li>
+        <li>En tu turno, tira el dado y avanza la cantidad indicada.</li>
+        <li>Al caer en una casilla, aplica inmediatamente la acción o símbolo que aparezca.</li>
+        <li>En una casilla <strong>?</strong>, abre esta plataforma en <strong>Casilla ?</strong>, gira la ruleta y cumple el reto de inglés.</li>
+        <li>Los retos se explican en español, pero las respuestas y el vocabulario se practican en inglés.</li>
+      </ol>
+    </section>
+
+    <section class="rules-section">
+      <h3>🗺️ Simbología del tablero</h3>
+      <div class="symbol-grid">
+        <div class="symbol-item">
+          <span class="board-symbol symbol-normal">Nº</span>
+          <div><strong>Casilla normal</strong><small>Tu turno termina ahí.</small></div>
+        </div>
+        <div class="symbol-item">
+          <span class="board-symbol symbol-question">?</span>
+          <div><strong>Pregunta / reto</strong><small>Usa la ruleta normal de la plataforma.</small></div>
+        </div>
+        <div class="symbol-item">
+          <span class="board-symbol symbol-forward">+2</span>
+          <div><strong>Avanza 2</strong><small>Mueve tu ficha dos casillas hacia adelante y aplica la nueva casilla.</small></div>
+        </div>
+        <div class="symbol-item">
+          <span class="board-symbol symbol-back">−2</span>
+          <div><strong>Retrocede 2</strong><small>Mueve tu ficha dos casillas hacia atrás y aplica la nueva casilla.</small></div>
+        </div>
+        <div class="symbol-item">
+          <span class="board-symbol symbol-again">🎲</span>
+          <div><strong>Tira otra vez</strong><small>Vuelve a lanzar el dado inmediatamente.</small></div>
+        </div>
+        <div class="symbol-item">
+          <span class="board-symbol symbol-swap">↔</span>
+          <div><strong>Cambia de lugar</strong><small>Intercambia tu posición con la de otro jugador.</small></div>
+        </div>
+        <div class="symbol-item">
+          <span class="board-symbol symbol-stop">✋</span>
+          <div><strong>Pierde 1 turno</strong><small>No juegas en tu próximo turno.</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rules-section special-rules">
+      <h3>🚀 Tramo especial: 35 → 38</h3>
+      <div class="special-rule-card jump-rule">
+        <span class="special-number">35</span>
+        <div>
+          <strong>Bloqueo de la casilla 35</strong>
+          <p>Las casillas <strong>36 y 37 no existen</strong>. Ningún lanzamiento de dado permite pasar directamente de la 35 a la 38.</p>
+          <p>Cuando llegas a la <strong>35</strong>, selecciona <strong>Casilla 35</strong> en esta plataforma. En cada turno gira la ruleta: si sale un reto, lo haces pero permaneces en 35. Solo cuando aparezca <strong>🚀 Súper Salto</strong> avanzas directamente a la <strong>38</strong>.</p>
+        </div>
+      </div>
+      <div class="special-rule-card question-rule">
+        <span class="special-number">38</span>
+        <div>
+          <strong>Casilla 38</strong>
+          <p>Al llegar mediante el Súper Salto, la 38 es una casilla <strong>?</strong>: usa la ruleta normal y realiza el reto. Después continúas por 39, 40 y 41.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rules-section final-rule-section">
+      <h3>🏆 Cómo se gana</h3>
+      <div class="special-rule-card final-rule">
+        <span class="special-number">41</span>
+        <div>
+          <strong>Pregunta Final Super Win</strong>
+          <p>Al llegar a la <strong>41</strong>, selecciona <strong>Casilla 41</strong> en la plataforma y responde la pregunta final.</p>
+          <p><strong>Si respondes correctamente, ganas el juego.</strong> Si fallas, permaneces en la 41 y en tu próximo turno intentas una nueva pregunta final.</p>
+        </div>
+      </div>
+    </section>
   </dialog>
 
   <script src="app.js"></script>
