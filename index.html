@@ -7,6 +7,134 @@
   <meta name="description" content="Ruleta educativa Super Win para aprender inglés de 3° básico jugando en español." />
   <title>Super Win English</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .rules-main-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 44px;
+      max-width: 170px;
+      border: 0;
+      border-radius: 14px;
+      padding: 8px 12px;
+      background: linear-gradient(145deg, #0757b8, #06428f);
+      color: #fff;
+      box-shadow: 0 6px 13px rgba(7,87,184,.22);
+      font-size: 12px;
+      line-height: 1.1;
+      font-weight: 950;
+      text-align: center;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+    .rules-main-icon { font-size: 19px; }
+    .rules-dialog {
+      max-height: min(88dvh, 780px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    }
+    .rules-dialog .dialog-head {
+      position: sticky;
+      top: -18px;
+      z-index: 5;
+      margin: -18px -18px 8px;
+      padding: 18px;
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid #dce8f8;
+      backdrop-filter: blur(8px);
+    }
+    .rules-section {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: #f7faff;
+      border: 2px solid #e0eafb;
+    }
+    .rules-section h3 {
+      margin: 0 0 10px;
+      color: #123b76;
+      font-size: 17px;
+    }
+    .rules-section ol {
+      margin: 0;
+      padding-left: 21px;
+    }
+    .rules-section li { line-height: 1.45; }
+    .symbol-grid { display: grid; gap: 8px; }
+    .symbol-item {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      align-items: center;
+      gap: 10px;
+      padding: 9px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid #dce6f5;
+    }
+    .symbol-item strong { display: block; color: #17315f; font-size: 14px; }
+    .symbol-item small { display: block; margin-top: 2px; color: #637493; line-height: 1.3; font-weight: 700; }
+    .board-symbol {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 1000;
+      box-shadow: inset 0 -3px 0 rgba(0,0,0,.12);
+    }
+    .symbol-normal { background: #18a5d8; }
+    .symbol-question { background: #7250c7; font-size: 28px; }
+    .symbol-forward { background: #e7b826; }
+    .symbol-back { background: #3a9e65; }
+    .symbol-again { background: #315c91; }
+    .symbol-swap { background: #d85b4d; font-size: 25px; }
+    .symbol-stop { background: #c94e43; }
+    .special-rules { background: #fffaf0; border-color: #ffe09a; }
+    .final-rule-section { background: #fff9db; border-color: #ffe06a; }
+    .special-rule-card {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 11px;
+      align-items: start;
+      padding: 11px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid rgba(40,70,110,.12);
+    }
+    .special-rule-card + .special-rule-card { margin-top: 9px; }
+    .special-number {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #ff985e, #ef453f);
+      color: white;
+      font-size: 20px;
+      font-weight: 1000;
+    }
+    .jump-rule .special-number { background: linear-gradient(145deg, #60c86a, #168e4e); }
+    .question-rule .special-number { background: linear-gradient(145deg, #8463d9, #5e40b3); }
+    .final-rule .special-number { background: linear-gradient(145deg, #ff9a5d, #ef443e); }
+    .special-rule-card strong { color: #17315f; }
+    .special-rule-card p { margin: 5px 0 0; color: #536889; font-size: 13px; line-height: 1.4; font-weight: 700; }
+    @media (max-width: 430px) {
+      .section-heading { gap: 8px; }
+      .rules-main-btn { max-width: 132px; padding: 8px 9px; font-size: 11px; }
+      .rules-main-icon { font-size: 17px; }
+      .rules-dialog { width: calc(100% - 18px); padding: 14px; }
+      .rules-dialog .dialog-head { top: -14px; margin: -14px -14px 8px; padding: 14px; }
+      .rules-section { padding: 11px; }
+      .symbol-item { grid-template-columns: 48px 1fr; padding: 8px; }
+      .board-symbol { width: 44px; height: 44px; border-radius: 13px; }
+      .special-rule-card { grid-template-columns: 48px 1fr; padding: 9px; }
+      .special-number { width: 46px; height: 46px; }
+    }
+  </style>
 </head>
 <body>
   <main class="app-shell">
