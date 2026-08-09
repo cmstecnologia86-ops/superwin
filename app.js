@@ -12,6 +12,7 @@ const challengeIcon = document.getElementById('challengeIcon');
 const challengeCategory = document.getElementById('challengeCategory');
 const challengeDescription = document.getElementById('challengeDescription');
 const challengePrompt = document.getElementById('challengePrompt');
+const answerArea = document.getElementById('answerArea');
 const answerText = document.getElementById('answerText');
 const showAnswerBtn = document.getElementById('showAnswerBtn');
 const doneBtn = document.getElementById('doneBtn');
@@ -44,7 +45,7 @@ const ICONS = {
 };
 
 const DESCRIPTIONS = {
-  'Adivina': 'Lee la pista en español y responde con la palabra o frase correcta en inglés.',
+  'Adivina': 'Escucha o lee la adivinanza y elige una de las tres respuestas en inglés.',
   'Mímica': 'Haz la acción sin hablar. Los demás deben decir en inglés qué parte del cuerpo duele o qué malestar tienes.',
   'Dibuja': 'Haz el dibujo indicado. Los demás deben identificar en inglés la parte del cuerpo o el malestar.',
   'Pregunta': 'Lee la pregunta en español y responde con la palabra o frase correcta en inglés.',
@@ -61,28 +62,128 @@ const JUMP_SEGMENTS = [
   'Adivina', 'Mímica', 'Dibuja', 'Pregunta', 'Flash Win', 'Súper Salto'
 ];
 
-// Banco enfocado en lo que aparece realmente en las páginas trabajadas de la Unidad 5:
-// body parts, illnesses, What’s the matter?, hurts, have got / has got y must / mustn’t.
 const challengeBank = {
   'Adivina': [
-    { prompt: 'La usas para ver. ¿Cómo se dice “ojo” en inglés?', answer: 'eye' },
-    { prompt: 'La usas para escuchar. ¿Cómo se dice “oreja” en inglés?', answer: 'ear' },
-    { prompt: 'La usas para comer y hablar. ¿Cómo se dice “boca” en inglés?', answer: 'mouth' },
-    { prompt: 'Está sobre tus ojos y puede ser corto o largo. ¿Cómo se dice “pelo” en inglés?', answer: 'hair' },
-    { prompt: 'Está entre el cuello y el brazo. ¿Cómo se dice “hombro” en inglés?', answer: 'shoulder' },
-    { prompt: 'La usas para tomar objetos. ¿Cómo se dice “mano” en inglés?', answer: 'hand' },
-    { prompt: 'Está entre el hombro y la mano. ¿Cómo se dice “brazo” en inglés?', answer: 'arm' },
-    { prompt: 'La usas para caminar y correr. ¿Cómo se dice “pierna” en inglés?', answer: 'leg' },
-    { prompt: 'Está al final de la pierna. ¿Cómo se dice “pie” en inglés?', answer: 'foot' },
-    { prompt: 'Está dentro de tu boca y lo cepillas. ¿Cómo se dice “diente” en inglés?', answer: 'tooth' },
-    { prompt: 'Si te duele la cabeza, ¿cómo se dice “dolor de cabeza” en inglés?', answer: 'a headache' },
-    { prompt: 'Si te duele una muela, ¿cómo se dice “dolor de muela” en inglés?', answer: 'a toothache' },
-    { prompt: 'Si te duele el estómago, ¿cómo se dice “dolor de estómago” en inglés?', answer: 'a stomach-ache' },
-    { prompt: 'Si estás resfriado, ¿cómo se dice “resfrío” en inglés?', answer: 'a cold' },
-    { prompt: 'Si estás tosiendo, ¿cómo se dice “tos” en inglés?', answer: 'a cough' },
-    { prompt: 'Si estás muy caliente y tienes fiebre, ¿qué expresión usa el libro?', answer: 'a temperature' },
-    { prompt: 'Si te duele la espalda, ¿cómo se dice “dolor de espalda” en inglés?', answer: 'a backache' },
-    { prompt: 'Si te duele el oído, ¿cómo se dice “dolor de oído” en inglés?', answer: 'an earache' }
+    {
+      prompt: 'Tengo dos hermanos, uno a cada lado de tu cabeza. No hablo, pero te ayudo a escuchar. ¿Quién soy?',
+      options: ['ear', 'eye', 'arm'],
+      correct: 0,
+      answer: 'ear = oreja'
+    },
+    {
+      prompt: 'Estoy arriba de tu cuerpo, tengo pelo y dentro de mí están tus ideas. ¿Quién soy?',
+      options: ['head', 'hand', 'foot'],
+      correct: 0,
+      answer: 'head = cabeza'
+    },
+    {
+      prompt: 'Soy como un puente entre tu cuello y tu brazo. Si cargas una mochila pesada, puedo cansarme. ¿Quién soy?',
+      options: ['shoulder', 'nose', 'tooth'],
+      correct: 0,
+      answer: 'shoulder = hombro'
+    },
+    {
+      prompt: 'Empiezo cerca del hombro y termino antes de la mano. Me mueves para lanzar y abrazar. ¿Quién soy?',
+      options: ['arm', 'leg', 'hair'],
+      correct: 0,
+      answer: 'arm = brazo'
+    },
+    {
+      prompt: 'Tengo cinco ayudantes llamados dedos. Sirvo para tomar, saludar y aplaudir. ¿Quién soy?',
+      options: ['hand', 'mouth', 'back'],
+      correct: 0,
+      answer: 'hand = mano'
+    },
+    {
+      prompt: 'Soy pequeño, estoy en tu cara y puedo oler una pizza antes de que la veas. ¿Quién soy?',
+      options: ['nose', 'ear', 'leg'],
+      correct: 0,
+      answer: 'nose = nariz'
+    },
+    {
+      prompt: 'Somos dos y abrimos y cerramos todo el día. Gracias a nosotros puedes leer y mirar dibujos. ¿Quiénes somos?',
+      options: ['eye', 'tooth', 'foot'],
+      correct: 0,
+      answer: 'eye = ojo'
+    },
+    {
+      prompt: 'Tengo dientes dentro, pero yo no muerdo. Sirvo para hablar, comer y sonreír. ¿Quién soy?',
+      options: ['mouth', 'stomach', 'hair'],
+      correct: 0,
+      answer: 'mouth = boca'
+    },
+    {
+      prompt: 'Puedo ser corto, largo, liso o desordenado. Crezco arriba de tu cabeza. ¿Quién soy?',
+      options: ['hair', 'back', 'ear'],
+      correct: 0,
+      answer: 'hair = pelo'
+    },
+    {
+      prompt: 'Estoy detrás de ti, pero no puedo verte. Te apoyo cuando te sientas en una silla. ¿Quién soy?',
+      options: ['back', 'mouth', 'hand'],
+      correct: 0,
+      answer: 'back = espalda'
+    },
+    {
+      prompt: 'Cuando tienes hambre hago ruido. Aquí llega la comida después de comer. ¿Quién soy?',
+      options: ['stomach', 'shoulder', 'eye'],
+      correct: 0,
+      answer: 'stomach = estómago'
+    },
+    {
+      prompt: 'Somos dos y te llevamos a caminar, correr y saltar. Estamos entre tu cuerpo y tus pies. ¿Quiénes somos?',
+      options: ['leg', 'arm', 'ear'],
+      correct: 0,
+      answer: 'leg = pierna'
+    },
+    {
+      prompt: 'Estoy al final de tu pierna y vivo dentro del zapato. ¿Quién soy?',
+      options: ['foot', 'head', 'mouth'],
+      correct: 0,
+      answer: 'foot = pie'
+    },
+    {
+      prompt: 'Vivo dentro de tu boca, soy duro y me cepillas todos los días. ¿Quién soy?',
+      options: ['tooth', 'nose', 'arm'],
+      correct: 0,
+      answer: 'tooth = diente'
+    },
+    {
+      prompt: 'Cuando aparezco te tomas la cabeza y dices “¡ay!”. ¿Qué malestar soy?',
+      options: ['a headache', 'a cough', 'a cold'],
+      correct: 0,
+      answer: 'a headache = dolor de cabeza'
+    },
+    {
+      prompt: 'Cuando aparezco no quieres masticar ni comer cosas duras. ¿Qué malestar soy?',
+      options: ['a toothache', 'a backache', 'a temperature'],
+      correct: 0,
+      answer: 'a toothache = dolor de muela'
+    },
+    {
+      prompt: 'Cuando aparezco te tomas la guatita y prefieres no comer muchos dulces. ¿Qué malestar soy?',
+      options: ['a stomach-ache', 'an earache', 'a headache'],
+      correct: 0,
+      answer: 'a stomach-ache = dolor de estómago'
+    },
+    {
+      prompt: 'Hago que suenes “cof, cof, cof”. ¿Qué malestar soy?',
+      options: ['a cough', 'a cold', 'a toothache'],
+      correct: 0,
+      answer: 'a cough = tos'
+    },
+    {
+      prompt: 'Conmigo puedes estornudar, sonarte la nariz y sentirte medio enfermo. ¿Qué soy?',
+      options: ['a cold', 'a headache', 'a backache'],
+      correct: 0,
+      answer: 'a cold = resfrío'
+    },
+    {
+      prompt: 'Cuando aparezco estás muy caliente y quizás necesitas quedarte en cama. ¿Qué tienes?',
+      options: ['a temperature', 'a cough', 'an earache'],
+      correct: 0,
+      answer: 'a temperature = fiebre / temperatura'
+    }
   ],
 
   'Mímica': [
@@ -179,86 +280,22 @@ const challengeBank = {
 };
 
 const finalQuestions = [
-  {
-    question: '¿Cuál es la frase correcta para decir “Me duele el ojo”?',
-    options: ['My eye hurts.', 'My ear hurts.', 'My head hurts.'],
-    correct: 0
-  },
-  {
-    question: '¿Cuál palabra significa “dolor de cabeza”?',
-    options: ['a headache', 'a toothache', 'a backache'],
-    correct: 0
-  },
-  {
-    question: '¿Cuál palabra significa “dolor de muela”?',
-    options: ['a cold', 'a toothache', 'a cough'],
-    correct: 1
-  },
-  {
-    question: '¿Cuál palabra significa “dolor de estómago”?',
-    options: ['a stomach-ache', 'an earache', 'a headache'],
-    correct: 0
-  },
-  {
-    question: 'Completa correctamente: “What’s the _____?”',
-    options: ['matter', 'temperature', 'stomach'],
-    correct: 0
-  },
-  {
-    question: 'Stella tiene fiebre. ¿Cuál es la frase correcta?',
-    options: ['She’s got a temperature.', 'She’s got a toothache.', 'She’s got a hand.'],
-    correct: 0
-  },
-  {
-    question: 'Un niño tiene tos. ¿Cuál es la frase correcta?',
-    options: ['He’s got a cough.', 'He’s got a cold foot.', 'He’s got an arm.'],
-    correct: 0
-  },
-  {
-    question: '¿Cuál frase significa “Me duele la pierna”?',
-    options: ['My leg hurts.', 'My hand hurts.', 'My mouth hurts.'],
-    correct: 0
-  },
-  {
-    question: 'Si te duele el pie y no puedes patear la pelota, ¿cuál frase es correcta?',
-    options: ['My foot hurts. I can’t kick the ball.', 'My arm hurts. I can’t read.', 'My eye hurts. I can’t catch the ball.'],
-    correct: 0
-  },
-  {
-    question: 'Si te duele la mano y no puedes atrapar la pelota, ¿cuál frase es correcta?',
-    options: ['My hand hurts. I can’t catch the ball.', 'My foot hurts. I can’t eat.', 'My leg hurts. I can’t read.'],
-    correct: 0
-  },
-  {
-    question: 'Stella está enferma. ¿Qué debe hacer?',
-    options: ['She must stay in bed.', 'She mustn’t drink water.', 'She must eat lots of sweets.'],
-    correct: 0
-  },
-  {
-    question: 'Simon dice que tiene dolor de estómago. ¿Qué es correcto?',
-    options: ['He mustn’t eat sweets.', 'He must eat sweets.', 'He mustn’t rest.'],
-    correct: 0
-  },
-  {
-    question: '¿Cuál es la traducción correcta de “hombro”?',
-    options: ['shoulder', 'stomach', 'back'],
-    correct: 0
-  },
-  {
-    question: '¿Cuál es la traducción correcta de “brazo”?',
-    options: ['arm', 'leg', 'hand'],
-    correct: 0
-  },
-  {
-    question: '¿Cuál es la traducción correcta de “espalda”?',
-    options: ['back', 'mouth', 'hair'],
-    correct: 0
-  },
-  {
-    question: '¿Cuál frase usa correctamente “They’ve got”?',
-    options: ['They’ve got a cold.', 'They’ve got is cold.', 'They has got a cold.'],
-    correct: 0
-  }
+  { question: '¿Cuál es la frase correcta para decir “Me duele el ojo”?', options: ['My eye hurts.', 'My ear hurts.', 'My head hurts.'], correct: 0 },
+  { question: '¿Cuál palabra significa “dolor de cabeza”?', options: ['a headache', 'a toothache', 'a backache'], correct: 0 },
+  { question: '¿Cuál palabra significa “dolor de muela”?', options: ['a cold', 'a toothache', 'a cough'], correct: 1 },
+  { question: '¿Cuál palabra significa “dolor de estómago”?', options: ['a stomach-ache', 'an earache', 'a headache'], correct: 0 },
+  { question: 'Completa correctamente: “What’s the _____?”', options: ['matter', 'temperature', 'stomach'], correct: 0 },
+  { question: 'Stella tiene fiebre. ¿Cuál es la frase correcta?', options: ['She’s got a temperature.', 'She’s got a toothache.', 'She’s got a hand.'], correct: 0 },
+  { question: 'Un niño tiene tos. ¿Cuál es la frase correcta?', options: ['He’s got a cough.', 'He’s got a cold foot.', 'He’s got an arm.'], correct: 0 },
+  { question: '¿Cuál frase significa “Me duele la pierna”?', options: ['My leg hurts.', 'My hand hurts.', 'My mouth hurts.'], correct: 0 },
+  { question: 'Si te duele el pie y no puedes patear la pelota, ¿cuál frase es correcta?', options: ['My foot hurts. I can’t kick the ball.', 'My arm hurts. I can’t read.', 'My eye hurts. I can’t catch the ball.'], correct: 0 },
+  { question: 'Si te duele la mano y no puedes atrapar la pelota, ¿cuál frase es correcta?', options: ['My hand hurts. I can’t catch the ball.', 'My foot hurts. I can’t eat.', 'My leg hurts. I can’t read.'], correct: 0 },
+  { question: 'Stella está enferma. ¿Qué debe hacer?', options: ['She must stay in bed.', 'She mustn’t drink water.', 'She must eat lots of sweets.'], correct: 0 },
+  { question: 'Simon dice que tiene dolor de estómago. ¿Qué es correcto?', options: ['He mustn’t eat sweets.', 'He must eat sweets.', 'He mustn’t rest.'], correct: 0 },
+  { question: '¿Cuál es la traducción correcta de “hombro”?', options: ['shoulder', 'stomach', 'back'], correct: 0 },
+  { question: '¿Cuál es la traducción correcta de “brazo”?', options: ['arm', 'leg', 'hand'], correct: 0 },
+  { question: '¿Cuál es la traducción correcta de “espalda”?', options: ['back', 'mouth', 'hair'], correct: 0 },
+  { question: '¿Cuál frase usa correctamente “They’ve got”?', options: ['They’ve got a cold.', 'They’ve got is cold.', 'They has got a cold.'], correct: 0 }
 ];
 
 let mode = 'normal';
@@ -336,6 +373,41 @@ function buildWheel() {
   });
 }
 
+function renderChallengeOptions(item) {
+  answerArea.innerHTML = '';
+
+  if (!item.options) {
+    showAnswerBtn.classList.remove('hidden');
+    return;
+  }
+
+  showAnswerBtn.classList.add('hidden');
+
+  item.options.forEach((option, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.type = 'button';
+    btn.textContent = option;
+
+    btn.addEventListener('click', () => {
+      [...answerArea.children].forEach(button => { button.disabled = true; });
+
+      if (index === item.correct) {
+        btn.classList.add('correct');
+        answerText.textContent = `✅ ¡Correcto! ${item.answer}`;
+      } else {
+        btn.classList.add('wrong');
+        answerArea.children[item.correct].classList.add('correct');
+        answerText.textContent = `💡 La respuesta correcta es: ${item.answer}`;
+      }
+
+      answerText.classList.remove('hidden');
+    });
+
+    answerArea.appendChild(btn);
+  });
+}
+
 function showChallenge(category) {
   currentChallenge = randomItem(challengeBank[category]);
   challengeCategory.textContent = category;
@@ -345,6 +417,7 @@ function showChallenge(category) {
   challengePrompt.textContent = currentChallenge.prompt;
   answerText.textContent = currentChallenge.answer;
   answerText.classList.add('hidden');
+  renderChallengeOptions(currentChallenge);
   challengePanel.classList.remove('hidden');
   challengePanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
@@ -426,9 +499,7 @@ doneBtn.addEventListener('click', () => {
 });
 rulesBtn.addEventListener('click', () => rulesDialog.showModal());
 closeRulesBtn.addEventListener('click', () => rulesDialog.close());
-rulesDialog.addEventListener('click', event => {
-  if (event.target === rulesDialog) rulesDialog.close();
-});
+rulesDialog.addEventListener('click', e => { if (e.target === rulesDialog) rulesDialog.close(); });
 startFinalBtn.addEventListener('click', showFinalQuestion);
 nextFinalBtn.addEventListener('click', showFinalQuestion);
 window.addEventListener('resize', buildWheel);
