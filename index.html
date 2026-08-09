@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0757b8" />
-  <meta name="description" content="Ruleta educativa Super Win para practicar inglés de 3° básico." />
+  <meta name="description" content="Ruleta educativa Super Win para aprender inglés de 3° básico jugando en español." />
   <title>Super Win English</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -13,9 +13,9 @@
     <header class="hero">
       <div class="logo-mark" aria-hidden="true">★</div>
       <div>
-        <p class="eyebrow">Juego de inglés</p>
+        <p class="eyebrow">Juego para aprender inglés</p>
         <h1>SUPER <span>WIN</span></h1>
-        <p class="subtitle">Gira, juega y demuestra lo que sabes.</p>
+        <p class="subtitle">Las instrucciones están en español. ¡Las respuestas se aprenden en inglés!</p>
       </div>
     </header>
 
@@ -77,6 +77,7 @@
           <h2 id="challengeCategory">Pregunta</h2>
         </div>
       </div>
+      <p id="challengeDescription" class="challenge-description"></p>
       <p id="challengePrompt" class="challenge-prompt"></p>
       <div id="answerArea" class="answer-area"></div>
       <div class="challenge-actions">
@@ -90,7 +91,7 @@
       <div class="final-crown" aria-hidden="true">🏆</div>
       <p class="eyebrow">CASILLA 41</p>
       <h2>Pregunta Final Super Win</h2>
-      <p class="final-intro">Responde correctamente para ganar el juego.</p>
+      <p class="final-intro">Lee la pregunta en español y elige la respuesta correcta en inglés. Si aciertas, ganas el juego.</p>
       <button id="startFinalBtn" class="primary-btn big" type="button">SACAR PREGUNTA FINAL</button>
 
       <div id="finalQuestionBox" class="final-question-box hidden">
@@ -103,16 +104,17 @@
 
     <footer class="footer-note">
       <span>⭐ Super Win English</span>
-      <span>Kid's Box 3 · Health · Body · Sports · must / mustn't</span>
+      <span>Kid's Box 3 · Salud · Cuerpo · Deportes · must / mustn't</span>
     </footer>
   </main>
 
   <dialog id="rulesDialog" class="rules-dialog">
     <div class="dialog-head">
-      <h2>Reglas especiales</h2>
+      <h2>Cómo jugar</h2>
       <button id="closeRulesBtn" class="icon-button" type="button" aria-label="Cerrar">×</button>
     </div>
     <ol>
+      <li><strong>El juego se explica en español:</strong> cada reto te indicará claramente qué tienes que hacer. El objetivo es practicar y responder en inglés.</li>
       <li><strong>Casillas ?:</strong> gira una vez y realiza el reto que aparezca.</li>
       <li><strong>Flash Win:</strong> saca una carta física Flash Win y cumple la instrucción indicada.</li>
       <li><strong>Casilla 35:</strong> las casillas 36 y 37 no existen. Debes seguir girando en tus turnos hasta obtener <strong>Súper Salto</strong>. Entonces avanzas directo a la 38.</li>
