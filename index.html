@@ -328,40 +328,72 @@
   <script src="app.js"></script>
   <script>
     (() => {
-      // Safari móvil cambia la altura del viewport al mostrar/ocultar sus barras.
-      // Eso disparaba el resize original y recalculaba las etiquetas usando
-      // la caja transformada de la ruleta ya girada, desplazándolas fuera del círculo.
+      // La ruleta puede quedar rotada después de una jugada. Medirla con
+      // getBoundingClientRect() en ese estado agranda artificialmente su caja
+      // y empuja las etiquetas fuera del círculo. clientWidth no se ve afectado
+      // por transformaciones, por eso se usa como única medida de layout.
       window.removeEventListener('resize', buildWheel);
+
+      buildWheel = function () {
+        wheel.innerHTML = '';
+        const angle = 360 / currentSegments.length;
+        wheel.style.background = `conic-gradient(${currentSegments.map((cat, i) => `${COLORS[cat]} ${i * angle}deg ${(i + 1) * angle}deg`).join(',')})`;
+
+        const size = wheel.clientWidth || wheel.offsetWidth || 340;
+        const center = size / 2;
+        const radius = size * 0.375;
+
+        currentSegments.forEach((category, i) => {
+          const label = document.createElement('div');
+          label.className = 'wheel-label';
+          label.textContent = category;
+          const centerAngle = i * angle + angle / 2 - 90;
+          const radians = centerAngle * Math.PI / 180;
+          label.style.left = `${center + Math.cos(radians) * radius}px`;
+          label.style.top = `${center + Math.sin(radians) * radius}px`;
+          label.style.transform = `translate(-50%, -50%) rotate(${centerAngle + 90}deg)`;
+          wheel.appendChild(label);
+        });
+      };
+
+      function resetWheelForModeChange() {
+        if (spinning) return;
+        currentRotation = 0;
+        wheel.style.transition = 'none';
+        wheel.style.transform = 'rotate(0deg)';
+        buildWheel();
+        void wheel.offsetWidth;
+        requestAnimationFrame(() => {
+          wheel.style.transition = '';
+        });
+      }
+
+      // El listener original cambia el modo primero. Este segundo listener
+      // limpia la rotación anterior para que cada modo parta visualmente ordenado.
+      modeButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (btn.dataset.mode === 'final') return;
+          requestAnimationFrame(resetWheelForModeChange);
+        });
+      });
 
       let lastViewportWidth = window.innerWidth;
       let resizeTimer;
 
       window.addEventListener('resize', () => {
         const nextWidth = window.innerWidth;
-
-        // Si solo cambió la altura (barra de Safari), no hay nada que recalcular.
         if (Math.abs(nextWidth - lastViewportWidth) < 2) return;
         lastViewportWidth = nextWidth;
 
         clearTimeout(resizeTimer);
         resizeTimer = window.setTimeout(() => {
           if (spinning) return;
-
-          const savedTransform = wheel.style.transform;
-          const savedTransition = wheel.style.transition;
-
-          // Recalcular con la ruleta sin transformación evita medir una caja rotada.
-          wheel.style.transition = 'none';
-          wheel.style.transform = 'none';
           buildWheel();
-          void wheel.offsetWidth;
-          wheel.style.transform = savedTransform;
-
-          requestAnimationFrame(() => {
-            wheel.style.transition = savedTransition;
-          });
         }, 120);
       });
+
+      // Asegura una geometría limpia desde la primera carga.
+      buildWheel();
     })();
   </script>
 </body>
