@@ -20,31 +20,12 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-
           path = Path('index.html')
           text = path.read_text(encoding='utf-8')
-
-          old = """      // Dos bloques de Súper Salto en la ruleta de la casilla 35 para aumentar
-      // su probabilidad, manteniendo intactas todas las demás categorías.
-      if (JUMP_SEGMENTS.filter(item => item === 'Súper Salto').length < 2) {
-        JUMP_SEGMENTS.push('Súper Salto');
-      }
-"""
-
-          new = """      // Dos bloques de Súper Salto enfrentados en la ruleta de la casilla 35.
-      // Ocho segmentos permiten que queden exactamente opuestos (180°),
-      // manteniendo todas las categorías del juego.
-      JUMP_SEGMENTS.splice(
-        0,
-        JUMP_SEGMENTS.length,
-        'Súper Salto', 'Adivina', 'Mímica', 'Dibuja',
-        'Súper Salto', 'Pregunta', 'Flash Win', 'Adivina'
-      );
-"""
-
+          old = "if (JUMP_SEGMENTS.filter(item => item === 'Súper Salto').length < 2) {\n        JUMP_SEGMENTS.push('Súper Salto');\n      }"
+          new = "JUMP_SEGMENTS.splice(\n        0,\n        JUMP_SEGMENTS.length,\n        'Súper Salto', 'Adivina', 'Mímica', 'Dibuja',\n        'Súper Salto', 'Pregunta', 'Flash Win', 'Adivina'\n      );"
           if old not in text:
               raise SystemExit('No se encontró el bloque esperado en index.html')
-
           path.write_text(text.replace(old, new, 1), encoding='utf-8')
           PY
 
