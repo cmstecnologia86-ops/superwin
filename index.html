@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0757b8" />
+  <meta name="description" content="Ruleta educativa Super Win para practicar inglés de 3° básico." />
+  <title>Super Win English</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div class="logo-mark" aria-hidden="true">★</div>
+      <div>
+        <p class="eyebrow">Juego de inglés</p>
+        <h1>SUPER <span>WIN</span></h1>
+        <p class="subtitle">Gira, juega y demuestra lo que sabes.</p>
+      </div>
+    </header>
+
+    <section class="mode-card" aria-labelledby="modeTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">¿Dónde estás en el tablero?</p>
+          <h2 id="modeTitle">Elige el modo</h2>
+        </div>
+        <button id="rulesBtn" class="icon-button" type="button" aria-label="Ver reglas">?</button>
+      </div>
+
+      <div class="mode-grid" role="group" aria-label="Modo de juego">
+        <button class="mode-btn active" data-mode="normal" type="button">
+          <span class="mode-number">?</span>
+          <span><strong>Casilla ?</strong><small>Ruleta normal</small></span>
+        </button>
+        <button class="mode-btn" data-mode="jump" type="button">
+          <span class="mode-number">35</span>
+          <span><strong>Casilla 35</strong><small>Buscar Súper Salto</small></span>
+        </button>
+        <button class="mode-btn" data-mode="final" type="button">
+          <span class="mode-number">41</span>
+          <span><strong>Casilla 41</strong><small>Pregunta final</small></span>
+        </button>
+      </div>
+    </section>
+
+    <section id="roulettePanel" class="game-card">
+      <div class="status-row">
+        <div>
+          <p id="modeLabel" class="eyebrow">CASILLA ?</p>
+          <h2 id="modeMessage">Gira la Ruleta Super Win</h2>
+        </div>
+        <div id="jumpBadge" class="jump-badge hidden">35 → 38</div>
+      </div>
+
+      <div class="wheel-stage">
+        <div class="pointer" aria-hidden="true"></div>
+        <div id="wheel" class="wheel" aria-label="Ruleta de retos"></div>
+        <button id="spinBtn" class="spin-center" type="button">GIRAR</button>
+      </div>
+
+      <div class="legend" aria-label="Categorías de la ruleta">
+        <span><i class="dot riddle"></i>Adivina</span>
+        <span><i class="dot mime"></i>Mímica</span>
+        <span><i class="dot draw"></i>Dibuja</span>
+        <span><i class="dot question"></i>Pregunta</span>
+        <span><i class="dot flash"></i>Flash Win</span>
+        <span id="jumpLegend" class="hidden"><i class="dot superjump"></i>Súper Salto</span>
+      </div>
+    </section>
+
+    <section id="challengePanel" class="challenge-card hidden" aria-live="polite">
+      <div class="challenge-topline">
+        <span id="challengeIcon" class="challenge-icon">★</span>
+        <div>
+          <p class="eyebrow">TE TOCÓ</p>
+          <h2 id="challengeCategory">Pregunta</h2>
+        </div>
+      </div>
+      <p id="challengePrompt" class="challenge-prompt"></p>
+      <div id="answerArea" class="answer-area"></div>
+      <div class="challenge-actions">
+        <button id="showAnswerBtn" class="secondary-btn" type="button">Mostrar respuesta</button>
+        <button id="doneBtn" class="primary-btn" type="button">Listo</button>
+      </div>
+      <p id="answerText" class="answer-text hidden"></p>
+    </section>
+
+    <section id="finalPanel" class="game-card final-panel hidden" aria-live="polite">
+      <div class="final-crown" aria-hidden="true">🏆</div>
+      <p class="eyebrow">CASILLA 41</p>
+      <h2>Pregunta Final Super Win</h2>
+      <p class="final-intro">Responde correctamente para ganar el juego.</p>
+      <button id="startFinalBtn" class="primary-btn big" type="button">SACAR PREGUNTA FINAL</button>
+
+      <div id="finalQuestionBox" class="final-question-box hidden">
+        <p id="finalQuestion" class="challenge-prompt"></p>
+        <div id="finalOptions" class="final-options"></div>
+        <p id="finalFeedback" class="final-feedback hidden"></p>
+        <button id="nextFinalBtn" class="secondary-btn hidden" type="button">Otra pregunta final</button>
+      </div>
+    </section>
+
+    <footer class="footer-note">
+      <span>⭐ Super Win English</span>
+      <span>Kid's Box 3 · Health · Body · Sports · must / mustn't</span>
+    </footer>
+  </main>
+
+  <dialog id="rulesDialog" class="rules-dialog">
+    <div class="dialog-head">
+      <h2>Reglas especiales</h2>
+      <button id="closeRulesBtn" class="icon-button" type="button" aria-label="Cerrar">×</button>
+    </div>
+    <ol>
+      <li><strong>Casillas ?:</strong> gira una vez y realiza el reto que aparezca.</li>
+      <li><strong>Flash Win:</strong> saca una carta física Flash Win y cumple la instrucción indicada.</li>
+      <li><strong>Casilla 35:</strong> las casillas 36 y 37 no existen. Debes seguir girando en tus turnos hasta obtener <strong>Súper Salto</strong>. Entonces avanzas directo a la 38.</li>
+      <li><strong>Casilla 41:</strong> responde una Pregunta Final. Si aciertas, ganas. Si fallas, permaneces en 41 y pruebas otra pregunta en tu próximo turno.</li>
+    </ol>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
