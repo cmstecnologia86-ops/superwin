@@ -1,4 +1,4 @@
-name: Reordenar Super Salto
+name: Actualizar materia Unidad 5
 
 on:
   push:
@@ -10,29 +10,147 @@ permissions:
   contents: write
 
 jobs:
-  reorder:
+  update-unit5:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Separar bloques Súper Salto
+      - name: Incorporar must mustnt y acciones de Fit and well
         run: |
           python - <<'PY'
           from pathlib import Path
-          path = Path('index.html')
-          text = path.read_text(encoding='utf-8')
-          old = "if (JUMP_SEGMENTS.filter(item => item === 'Súper Salto').length < 2) {\n        JUMP_SEGMENTS.push('Súper Salto');\n      }"
-          new = "JUMP_SEGMENTS.splice(\n        0,\n        JUMP_SEGMENTS.length,\n        'Súper Salto', 'Adivina', 'Mímica', 'Dibuja',\n        'Súper Salto', 'Pregunta', 'Flash Win', 'Adivina'\n      );"
-          if old not in text:
-              raise SystemExit('No se encontró el bloque esperado en index.html')
-          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          app = Path('app.js')
+          text = app.read_text(encoding='utf-8')
+
+          if '¿Cómo se dice “nadar” en inglés?' in text:
+              print('Los contenidos ya están incorporados.')
+              raise SystemExit(0)
+
+          text = text.replace(
+              "  'Mímica': 'Haz la acción sin hablar. Los demás deben decir en inglés qué parte del cuerpo duele o qué malestar tienes.',",
+              "  'Mímica': 'Haz la acción sin hablar. Los demás deben decir en inglés la acción, la parte del cuerpo o el malestar representado.',"
+          )
+          text = text.replace(
+              "  'Dibuja': 'Haz el dibujo indicado. Los demás deben identificar en inglés la parte del cuerpo o el malestar.',",
+              "  'Dibuja': 'Haz el dibujo indicado. Los demás deben identificar en inglés la palabra, acción o malestar.',"
+          )
+
+          def insert_before_next(section, next_section, extra):
+              global text
+              start = text.index(f"  '{section}': [")
+              marker = f"\n  ],\n\n  '{next_section}': ["
+              end = text.index(marker, start)
+              text = text[:end] + ",\n" + extra.rstrip() + text[end:]
+
+          insert_before_next('Adivina', 'Mímica', '''    {
+      prompt: 'Me muevo dentro del agua usando brazos y piernas. ¿Qué acción soy?',
+      options: ['swim', 'run', 'dance'],
+      correct: 0,
+      answer: 'swim = nadar'
+    },
+    {
+      prompt: 'Voy muy rápido usando mis piernas y puedo hacerlo en una carrera. ¿Qué acción soy?',
+      options: ['run', 'sleep', 'climb'],
+      correct: 0,
+      answer: 'run = correr'
+    },
+    {
+      prompt: 'Subo hacia arriba usando manos y pies, como en un muro o una montaña. ¿Qué acción soy?',
+      options: ['climb', 'hop', 'swim'],
+      correct: 0,
+      answer: 'climb = escalar'
+    },
+    {
+      prompt: 'Me muevo siguiendo la música y puedo hacerlo en una fiesta. ¿Qué acción soy?',
+      options: ['dance', 'jump', 'sleep'],
+      correct: 0,
+      answer: 'dance = bailar'
+    },
+    {
+      prompt: 'Despego los dos pies del suelo al mismo tiempo. ¿Qué acción soy?',
+      options: ['jump', 'run', 'swim'],
+      correct: 0,
+      answer: 'jump = saltar'
+    },
+    {
+      prompt: 'Salto apoyándome principalmente en un solo pie. ¿Qué acción soy?',
+      options: ['hop', 'dance', 'climb'],
+      correct: 0,
+      answer: 'hop = saltar en un pie'
+    },
+    {
+      prompt: 'Doy pequeños saltos y pasos ligeros, como cuando juego alegremente. ¿Qué acción soy?',
+      options: ['skip', 'sleep', 'run'],
+      correct: 0,
+      answer: 'skip = saltar dando pasos ligeros'
+    }''')
+
+          insert_before_next('Mímica', 'Dibuja', '''    { prompt: 'Haz la mímica de nadar. Los demás deben decir la acción en inglés.', answer: 'swim' },
+    { prompt: 'Haz la mímica de correr. Los demás deben decir la acción en inglés.', answer: 'run' },
+    { prompt: 'Haz la mímica de escalar. Los demás deben decir la acción en inglés.', answer: 'climb' },
+    { prompt: 'Haz la mímica de bailar. Los demás deben decir la acción en inglés.', answer: 'dance' },
+    { prompt: 'Haz la mímica de saltar con los dos pies. Los demás deben decir la acción en inglés.', answer: 'jump' },
+    { prompt: 'Haz la mímica de saltar en un pie. Los demás deben decir la acción en inglés.', answer: 'hop' },
+    { prompt: 'Haz la mímica de avanzar dando pequeños saltos. Los demás deben decir la acción en inglés.', answer: 'skip' }''')
+
+          insert_before_next('Dibuja', 'Pregunta', '''    { prompt: 'Dibuja a alguien nadando. Los demás deben decir la acción en inglés.', answer: 'swim' },
+    { prompt: 'Dibuja a alguien corriendo. Los demás deben decir la acción en inglés.', answer: 'run' },
+    { prompt: 'Dibuja a alguien escalando. Los demás deben decir la acción en inglés.', answer: 'climb' },
+    { prompt: 'Dibuja a alguien bailando. Los demás deben decir la acción en inglés.', answer: 'dance' }''')
+
+          insert_before_next('Pregunta', 'Flash Win', '''    { prompt: '¿Cómo se dice “nadar” en inglés?', answer: 'swim' },
+    { prompt: '¿Cómo se dice “correr” en inglés?', answer: 'run' },
+    { prompt: '¿Cómo se dice “escalar” en inglés?', answer: 'climb' },
+    { prompt: '¿Cómo se dice “bailar” en inglés?', answer: 'dance' },
+    { prompt: '¿Cómo se dice “saltar” en inglés?', answer: 'jump' },
+    { prompt: '¿Cómo se dice “saltar en un pie” en inglés?', answer: 'hop' },
+    { prompt: '¿Qué palabra del libro corresponde a avanzar dando pequeños saltos?', answer: 'skip' },
+    { prompt: 'Completa: “When you’ve got a cough, you ______ go out.” ¿must o mustn’t?', answer: 'mustn’t' },
+    { prompt: 'Completa: “When you’ve got a headache, you ______ go to bed.” ¿must o mustn’t?', answer: 'must' },
+    { prompt: 'Stella está enferma. Completa: “Stella ______ stay in bed.”', answer: 'must' },
+    { prompt: 'Stella está enferma. Completa: “Stella ______ get up.”', answer: 'mustn’t' },
+    { prompt: 'Paul está enfermo. ¿Cómo se dice “Él debe quedarse en cama” usando must?', answer: 'He must stay in bed.' },
+    { prompt: 'Paul está enfermo. ¿Cómo se dice “Él no debe levantarse” usando mustn’t?', answer: 'He mustn’t get up.' },
+    { prompt: 'En la historia de Paul, completa: “He can’t go to ______ because he’s ill.”', answer: 'school' },
+    { prompt: 'En la historia de Paul, completa: “He’s got a ______ and a cold.”', answer: 'cough' },
+    { prompt: 'En la historia de Paul, completa: “His ______ says he mustn’t run or play.”', answer: 'doctor' },
+    { prompt: 'En la historia de Paul, completa: “He must ______ and drink a lot.”', answer: 'sleep' },
+    { prompt: 'En la historia de Paul, ¿qué clase tiene los martes?', answer: 'swimming lesson' },
+    { prompt: 'En la historia de Paul, completa: “He can listen to music in ______.”', answer: 'bed' }''')
+
+          marker = "];\n\nlet mode = 'normal';"
+          pos = text.index(marker, text.index('const finalQuestions = ['))
+          extra_final = '''  ,{ question: 'Si tienes tos, ¿qué opción completa correctamente “When you’ve got a cough, you ___ go out”?', options: ['mustn’t', 'must', 'can'], correct: 0 },
+  { question: 'Si tienes dolor de cabeza, ¿qué opción completa “When you’ve got a headache, you ___ go to bed”?', options: ['must', 'mustn’t', 'can’t'], correct: 0 },
+  { question: '¿Cuál palabra significa “nadar”?', options: ['swim', 'skip', 'sleep'], correct: 0 },
+  { question: '¿Cuál palabra significa “escalar”?', options: ['climb', 'dance', 'hop'], correct: 0 },
+  { question: '¿Cuál palabra significa “bailar”?', options: ['dance', 'run', 'jump'], correct: 0 },
+  { question: 'Paul está enfermo. ¿Qué frase es correcta?', options: ['He must stay in bed.', 'He must run and play.', 'He must go to school.'], correct: 0 },
+  { question: 'En la historia de Paul, ¿quién dice que no debe correr ni jugar?', options: ['doctor', 'school', 'swimming'], correct: 0 },
+  { question: 'Completa la historia de Paul: “He must ___ and drink a lot.”', options: ['sleep', 'jump', 'dance'], correct: 0 }\n'''
+          text = text[:pos] + extra_final + text[pos:]
+
+          app.write_text(text, encoding='utf-8')
+
+          index = Path('index.html')
+          html = index.read_text(encoding='utf-8')
+          html = html.replace(
+              "Kid's Box 3 · Unidad 5 Fit and well · Cuerpo · Malestares · have got / has got · must / mustn't",
+              "Kid's Box 3 · Unidad 5 Fit and well · Cuerpo · Malestares · Acciones · have got / has got · must / mustn't"
+          )
+          index.write_text(html, encoding='utf-8')
           PY
 
       - name: Commit y push
         run: |
           git config user.name "cmstecnologia86-ops"
           git config user.email "cmstecnologia86@gmail.com"
-          git add index.html
-          git commit -m "Separar los dos bloques Súper Salto en posiciones opuestas"
+          git add app.js index.html
+          if git diff --cached --quiet; then
+            echo "Sin cambios"
+            exit 0
+          fi
+          git commit -m "Incorporar must mustnt y acciones de páginas 48 y 49"
           git push
