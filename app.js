@@ -46,8 +46,8 @@ const ICONS = {
 
 const DESCRIPTIONS = {
   'Adivina': 'Escucha o lee la adivinanza y elige una de las tres respuestas en inglés.',
-  'Mímica': 'Haz la acción sin hablar. Los demás deben decir en inglés qué parte del cuerpo duele o qué malestar tienes.',
-  'Dibuja': 'Haz el dibujo indicado. Los demás deben identificar en inglés la parte del cuerpo o el malestar.',
+  'Mímica': 'Haz la acción sin hablar. Los demás deben decir en inglés la acción, la parte del cuerpo o el malestar representado.',
+  'Dibuja': 'Haz el dibujo indicado. Los demás deben identificar en inglés la palabra, acción o malestar.',
   'Pregunta': 'Lee la pregunta en español y responde con la palabra o frase correcta en inglés.',
   'Flash Win': 'Saca una carta Flash Win y úsala para practicar el vocabulario y las frases de la Unidad 5.',
   'Súper Salto': '¡Conseguiste el Súper Salto! Avanza directamente desde la casilla 35 hasta la 38.'
@@ -183,7 +183,14 @@ const challengeBank = {
       options: ['a temperature', 'a cough', 'an earache'],
       correct: 0,
       answer: 'a temperature = fiebre / temperatura'
-    }
+    },
+    { prompt: 'Me muevo dentro del agua usando brazos y piernas. ¿Qué acción soy?', options: ['swim', 'run', 'dance'], correct: 0, answer: 'swim = nadar' },
+    { prompt: 'Voy muy rápido usando mis piernas y puedo hacerlo en una carrera. ¿Qué acción soy?', options: ['run', 'sleep', 'climb'], correct: 0, answer: 'run = correr' },
+    { prompt: 'Subo hacia arriba usando manos y pies, como en un muro o una montaña. ¿Qué acción soy?', options: ['climb', 'hop', 'swim'], correct: 0, answer: 'climb = escalar' },
+    { prompt: 'Me muevo siguiendo la música y puedo hacerlo en una fiesta. ¿Qué acción soy?', options: ['dance', 'jump', 'sleep'], correct: 0, answer: 'dance = bailar' },
+    { prompt: 'Despego los dos pies del suelo al mismo tiempo. ¿Qué acción soy?', options: ['jump', 'run', 'swim'], correct: 0, answer: 'jump = saltar' },
+    { prompt: 'Salto apoyándome principalmente en un solo pie. ¿Qué acción soy?', options: ['hop', 'dance', 'climb'], correct: 0, answer: 'hop = saltar en un pie' },
+    { prompt: 'Doy pequeños saltos y pasos ligeros, como cuando juego alegremente. ¿Qué acción soy?', options: ['skip', 'sleep', 'run'], correct: 0, answer: 'skip = saltar dando pasos ligeros' }
   ],
 
   'Mímica': [
@@ -199,7 +206,14 @@ const challengeBank = {
     { prompt: 'Haz como si te doliera el pie y no pudieras patear una pelota. Los demás deben formar la frase en inglés.', answer: 'My foot hurts. I can’t kick the ball.' },
     { prompt: 'Haz como si te doliera la pierna y no pudieras andar en bicicleta. Los demás deben formar la frase en inglés.', answer: 'My leg hurts. I can’t ride my bike.' },
     { prompt: 'Haz como si te doliera el brazo y no pudieras jugar tenis. Los demás deben formar la frase en inglés.', answer: 'My arm hurts. I can’t play tennis.' },
-    { prompt: 'Haz como si te doliera la mano y no pudieras atrapar una pelota. Los demás deben formar la frase en inglés.', answer: 'My hand hurts. I can’t catch the ball.' }
+    { prompt: 'Haz como si te doliera la mano y no pudieras atrapar una pelota. Los demás deben formar la frase en inglés.', answer: 'My hand hurts. I can’t catch the ball.' },
+    { prompt: 'Haz la mímica de nadar. Los demás deben decir la acción en inglés.', answer: 'swim' },
+    { prompt: 'Haz la mímica de correr. Los demás deben decir la acción en inglés.', answer: 'run' },
+    { prompt: 'Haz la mímica de escalar. Los demás deben decir la acción en inglés.', answer: 'climb' },
+    { prompt: 'Haz la mímica de bailar. Los demás deben decir la acción en inglés.', answer: 'dance' },
+    { prompt: 'Haz la mímica de saltar con los dos pies. Los demás deben decir la acción en inglés.', answer: 'jump' },
+    { prompt: 'Haz la mímica de saltar en un pie. Los demás deben decir la acción en inglés.', answer: 'hop' },
+    { prompt: 'Haz la mímica de avanzar dando pequeños saltos. Los demás deben decir la acción en inglés.', answer: 'skip' }
   ],
 
   'Dibuja': [
@@ -217,7 +231,11 @@ const challengeBank = {
     { prompt: 'Dibuja a alguien con dolor de estómago. Los demás deben decir el malestar en inglés.', answer: 'a stomach-ache' },
     { prompt: 'Dibuja a alguien resfriado. Los demás deben decir el malestar en inglés.', answer: 'a cold' },
     { prompt: 'Dibuja a alguien tosiendo. Los demás deben decir el malestar en inglés.', answer: 'a cough' },
-    { prompt: 'Dibuja una persona completa y escribe 5 partes del cuerpo en inglés.', answer: 'Ejemplos: head, eye, ear, mouth, nose, hand, arm, leg, foot.' }
+    { prompt: 'Dibuja una persona completa y escribe 5 partes del cuerpo en inglés.', answer: 'Ejemplos: head, eye, ear, mouth, nose, hand, arm, leg, foot.' },
+    { prompt: 'Dibuja a alguien nadando. Los demás deben decir la acción en inglés.', answer: 'swim' },
+    { prompt: 'Dibuja a alguien corriendo. Los demás deben decir la acción en inglés.', answer: 'run' },
+    { prompt: 'Dibuja a alguien escalando. Los demás deben decir la acción en inglés.', answer: 'climb' },
+    { prompt: 'Dibuja a alguien bailando. Los demás deben decir la acción en inglés.', answer: 'dance' }
   ],
 
   'Pregunta': [
@@ -259,7 +277,26 @@ const challengeBank = {
     { prompt: 'Si te duele el pie y no puedes patear la pelota, completa: “My foot hurts. I can’t ______ the ball.”', answer: 'kick' },
     { prompt: 'Si te duele la pierna y no puedes andar en bicicleta, completa: “My leg hurts. I can’t ______ my bike.”', answer: 'ride' },
     { prompt: 'Si te duele el brazo y no puedes jugar tenis, completa: “My arm hurts. I can’t ______ tennis.”', answer: 'play' },
-    { prompt: 'Si te duele la mano y no puedes atrapar la pelota, completa: “My hand hurts. I can’t ______ the ball.”', answer: 'catch' }
+    { prompt: 'Si te duele la mano y no puedes atrapar la pelota, completa: “My hand hurts. I can’t ______ the ball.”', answer: 'catch' },
+    { prompt: '¿Cómo se dice “nadar” en inglés?', answer: 'swim' },
+    { prompt: '¿Cómo se dice “correr” en inglés?', answer: 'run' },
+    { prompt: '¿Cómo se dice “escalar” en inglés?', answer: 'climb' },
+    { prompt: '¿Cómo se dice “bailar” en inglés?', answer: 'dance' },
+    { prompt: '¿Cómo se dice “saltar” en inglés?', answer: 'jump' },
+    { prompt: '¿Cómo se dice “saltar en un pie” en inglés?', answer: 'hop' },
+    { prompt: '¿Qué palabra del libro corresponde a avanzar dando pequeños saltos?', answer: 'skip' },
+    { prompt: 'Completa: “When you’ve got a cough, you ______ go out.” ¿must o mustn’t?', answer: 'mustn’t' },
+    { prompt: 'Completa: “When you’ve got a headache, you ______ go to bed.” ¿must o mustn’t?', answer: 'must' },
+    { prompt: 'Stella está enferma. Completa: “Stella ______ stay in bed.”', answer: 'must' },
+    { prompt: 'Stella está enferma. Completa: “Stella ______ get up.”', answer: 'mustn’t' },
+    { prompt: 'Paul está enfermo. ¿Cómo se dice “Él debe quedarse en cama” usando must?', answer: 'He must stay in bed.' },
+    { prompt: 'Paul está enfermo. ¿Cómo se dice “Él no debe levantarse” usando mustn’t?', answer: 'He mustn’t get up.' },
+    { prompt: 'En la historia de Paul, completa: “He can’t go to ______ because he’s ill.”', answer: 'school' },
+    { prompt: 'En la historia de Paul, completa: “He’s got a ______ and a cold.”', answer: 'cough' },
+    { prompt: 'En la historia de Paul, completa: “His ______ says he mustn’t run or play.”', answer: 'doctor' },
+    { prompt: 'En la historia de Paul, completa: “He must ______ and drink a lot.”', answer: 'sleep' },
+    { prompt: 'En la historia de Paul, ¿qué clase tiene los martes?', answer: 'swimming lesson' },
+    { prompt: 'En la historia de Paul, completa: “He can listen to music in ______.”', answer: 'bed' }
   ],
 
   'Flash Win': [
@@ -295,7 +332,15 @@ const finalQuestions = [
   { question: '¿Cuál es la traducción correcta de “hombro”?', options: ['shoulder', 'stomach', 'back'], correct: 0 },
   { question: '¿Cuál es la traducción correcta de “brazo”?', options: ['arm', 'leg', 'hand'], correct: 0 },
   { question: '¿Cuál es la traducción correcta de “espalda”?', options: ['back', 'mouth', 'hair'], correct: 0 },
-  { question: '¿Cuál frase usa correctamente “They’ve got”?', options: ['They’ve got a cold.', 'They’ve got is cold.', 'They has got a cold.'], correct: 0 }
+  { question: '¿Cuál frase usa correctamente “They’ve got”?', options: ['They’ve got a cold.', 'They’ve got is cold.', 'They has got a cold.'], correct: 0 },
+  { question: 'Si tienes tos, ¿qué opción completa correctamente “When you’ve got a cough, you ___ go out”?', options: ['mustn’t', 'must', 'can'], correct: 0 },
+  { question: 'Si tienes dolor de cabeza, ¿qué opción completa “When you’ve got a headache, you ___ go to bed”?', options: ['must', 'mustn’t', 'can’t'], correct: 0 },
+  { question: '¿Cuál palabra significa “nadar”?', options: ['swim', 'skip', 'sleep'], correct: 0 },
+  { question: '¿Cuál palabra significa “escalar”?', options: ['climb', 'dance', 'hop'], correct: 0 },
+  { question: '¿Cuál palabra significa “bailar”?', options: ['dance', 'run', 'jump'], correct: 0 },
+  { question: 'Paul está enfermo. ¿Qué frase es correcta?', options: ['He must stay in bed.', 'He must run and play.', 'He must go to school.'], correct: 0 },
+  { question: 'En la historia de Paul, ¿quién dice que no debe correr ni jugar?', options: ['doctor', 'school', 'swimming'], correct: 0 },
+  { question: 'Completa la historia de Paul: “He must ___ and drink a lot.”', options: ['sleep', 'jump', 'dance'], correct: 0 }
 ];
 
 let mode = 'normal';
